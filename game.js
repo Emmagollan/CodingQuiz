@@ -60,22 +60,22 @@ let questions = [
 const SCORE_POINTS = 100
 const MAX_QUESTIONS = 6
 
-startGame = () = => {
+startGame = () => {
     questionCounter = 0;
     score = 0;
     availableQuestions = [...questions]
-    getNewQuestions ()
+    getNewQuestion()
 }
 
-getNewQuestions = () => {
-    if(availableQuestions.length === 0 || questionsCounter > MAX_QUESTIONS) {
+getNewQuestion = () => {
+    if(availableQuestions.length === 0 || questionCounter > MAX_QUESTIONS) {
         localStorage.setItem('mostRecentScore', score)
 
         return window.location.assign('/end.html')
     }
 
     questionCounter++
-    progressText.innertext = 'Question ${questionCounter} of ${MAX_QUESTIONS}'
+    progressText.innerText = 'question ${questionCounter} of ${MAX_QUESTIONS}'
     progressBarFull.style.width = '${(questionCounter/MAX_QUESTIONS) * 100}%'
 
     const questionsIndex = Math.floor(Math.random() * availableQuestions.length)
@@ -93,7 +93,7 @@ getNewQuestions = () => {
 }
 
 choices.forEach(choice => {
-    choice.addEventListener('click' e => {
+    choice.addEventListener('click', e => {
         if(!acceptingAnswers) return
     
 
@@ -113,10 +113,16 @@ choices.forEach(choice => {
 
         setTimeout(() => {
         selectedChoice.parentElement.classList.remove(classToApply)
-        getNewQuestion()
+        getNewQuestions()
 
         }, 1000)
     })
 
 })
 
+incrementScore = num => {
+    score +=num
+    scoreText.innerText = score
+}
+
+startGame ()
